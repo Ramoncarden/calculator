@@ -1,22 +1,46 @@
 const output = document.getElementById('result');
 
 let operation = {
-  firstInput: '0',
+  firstInput: '',
   secondInput: '',
   operandPressed: false,
 };
 
 const evaluate = (e) => {
-  operation.firstInput += e.target.innerText;
-  console.log(e.target.innerText);
-  console.log(operation.firstInput);
-
-  output.innerText = operation.firstInput;
+  // TODO: Lock first variable when operand is pressed
+  if (operation.operandPressed === false) {
+    operation.firstInput += e.target.innerText;
+    console.log('first num ' + operation.firstInput);
+    output.innerText = operation.firstInput;
+  } else {
+    operation.secondInput += e.target.innerText;
+    console.log('second num ' + operation.secondInput);
+    output.innerText = operation.secondInput;
+  }
 };
 
-document.addEventListener('click', evaluate);
+const getMathOperation = (e) => {
+  if (operation.firstInput.length >= 1) {
+    operation.operandPressed = true;
+    output.innerText = e.target.innerText;
+    console.log(e.target.innerText);
+  }
+};
+
+let inputElements = document.querySelectorAll('.input-btn').forEach((item) => {
+  item.addEventListener('click', evaluate);
+});
+// document.addEventListener('click', evaluate);
 
 document.getElementById('clear').addEventListener('click', () => {
-  operation.firstInput = '0';
-  console.log(output.innerText);
+  operation.firstInput = '';
+  operation.secondInput = '';
+  operation.operandPressed = false;
+  output.innerText = '0';
 });
+
+let operatorClick = document.querySelectorAll('.operator').forEach((item) => {
+  item.addEventListener('click', getMathOperation);
+});
+
+// TODO: Capture second variable info
