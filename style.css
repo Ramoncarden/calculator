@@ -26,11 +26,11 @@ button {
 }
 
 button:active {
-  color: #F484A2;
+  color: #f484a2;
 }
 
 button:focus {
-  outline:0;
+  outline: 0;
 }
 
 button:hover {
@@ -59,7 +59,7 @@ output {
   background-color: #daf4c6;
   margin-top: 12px;
   margin-bottom: 20px;
-  box-shadow: 1px 2px 2px #B7C0C4;
+  box-shadow: 1px 2px 2px #b7c0c4;
 }
 
 .buttonclear {
@@ -76,11 +76,11 @@ output {
   button {
     width: 90px;
     height: 90px;
-}
+  }
   output {
     width: 300px;
     height: 60px;
     margin-top: 20px;
     font-size: 40px;
   }
-
+}
