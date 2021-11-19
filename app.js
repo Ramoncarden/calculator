@@ -1,5 +1,8 @@
 const output = document.getElementById('result');
+const decimal = document.getElementById('decimal');
+const equal = document.getElementById('equals');
 
+// Object to handle calculator state changes
 let operation = {
   firstInput: '',
   secondInput: '',
@@ -10,29 +13,35 @@ let operation = {
   decimalPressed: false,
 };
 
-// Todo Add event listener for decimal point
-
-const evaluate = (e) => {
+// collect first input, math operation, and then second input. Results saved in operation object.
+const getInputs = (e) => {
   if (operation.operandPressed === false) {
+    if (e.target.innerText === '.') {
+      decimal.removeEventListener('click', getInputs);
+    }
     operation.firstInput += e.target.innerText;
-    console.log('first num ' + operation.firstInput);
     output.innerText = operation.firstInput;
   } else {
+    if (e.target.innerText === '.') {
+      decimal.removeEventListener('click', getInputs);
+    }
     operation.secondInput += e.target.innerText;
-    console.log('second num ' + operation.secondInput);
     output.innerText = operation.secondInput;
   }
 };
 
+// listen for math operation state change
 const getMathOperation = (e) => {
   if (operation.firstInput.length >= 1 && operation.secondInput === '') {
+    decimal.addEventListener('click', getInputs);
     operation.operandPressed = true;
     operation.action = e.target.innerText;
     output.innerText = e.target.innerText;
-    console.log(e.target.innerText);
   }
 };
 
+// Data being gathered in string form gets converted to number type or float type to
+// perform calculations correctly.
 const checkInt = (func) => {
   if (Number.isInteger()) {
     output.innerText = func();
@@ -99,9 +108,10 @@ function getTotal() {
     default:
       break;
   }
-  console.log('running total is : ' + operation.runningTotal);
+  decimal.addEventListener('click', getInputs);
 }
 
+// Reset state of operation object
 const clear = () => {
   operation.firstInput = '';
   operation.secondInput = '';
@@ -109,25 +119,23 @@ const clear = () => {
   output.innerText = '0';
   operation.runningTotal = 0;
   operation.haveTotal = false;
+  decimal.addEventListener('click', getInputs);
 };
+
+// **************** DOM selectors *******************
 
 let clearItems = document
   .getElementById('clear')
   .addEventListener('click', clear);
 
-// **************** DOM selectors *******************
-
 let inputElements = document.querySelectorAll('.input-btn').forEach((item) => {
-  item.addEventListener('click', evaluate);
+  item.addEventListener('click', getInputs);
 });
 
 let operatorClick = document.querySelectorAll('.operand').forEach((item) => {
   item.addEventListener('click', getMathOperation);
 });
 
-let decimal = document
-  .getElementById('decimal')
-  .addEventListener('click', evaluate);
+decimal.addEventListener('click', getInputs);
 
-const equal = document.getElementById('equals');
 equal.addEventListener('click', getTotal);
